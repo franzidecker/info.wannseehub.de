@@ -333,13 +333,14 @@ Promise.all([
   fetchOptional('./events.json')
 ])
 .then(([slidesData, eventsData]) => {
-  const org = eventsData?.organisation;
+  const eventsObj = Array.isArray(eventsData) ? eventsData[0] : eventsData;
+  const org = eventsObj?.organisation;
   document.getElementById('footer-address').textContent =
     org?.adresse ? `Wannsee HUB · ${org.adresse}` : 'Wannsee HUB';
   document.getElementById('footer-email').textContent = org?.email || '';
 
   const staticSlides = (slidesData.slides || []).map(s => ({ ...s, type: 'static' }));
-  const eventSlides  = (eventsData?.veranstaltungen || []).map(e => ({ ...e, type: 'event' }));
+  const eventSlides  = (eventsObj?.veranstaltungen || []).map(e => ({ ...e, type: 'event' }));
   state.slides = [...staticSlides, ...eventSlides];
 
   renderSlides();
