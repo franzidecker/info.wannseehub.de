@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #2e352a; }
@@ -131,6 +132,27 @@
   .meta-value       { font-weight:800; font-size:17px; letter-spacing:-0.01em; }
   .event-desc       { margin:0; font-weight:500; font-size:15px; line-height:1.65; }
 
+  /* ── QR CODE ── */
+  .qr-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .qr-box {
+    flex: none;
+    width: 80px; height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    padding: 5px;
+  }
+  .qr-box canvas, .qr-box img { width: 100% !important; height: 100% !important; }
+  .qr-label {
+    font-weight: 700; font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; line-height: 1.5;
+  }
+
   /* ── LOADING / ERROR ── */
   .loading      { height:100%; background:#2e352a; display:flex; align-items:center; justify-content:center; }
   .loading-text { font-weight:900; font-size:24px; color:#f4f1e8; opacity:0.25; letter-spacing:0.06em; }
@@ -250,6 +272,11 @@ function buildSlide(slide, i, isActive) {
           </div>
         </div>
         <p class="event-desc" style="color:${fgM}">${slide.beschreibung}</p>
+        ${slide.url ? `
+        <div class="qr-block">
+          <div class="qr-box" id="qr-${i}"></div>
+          <div class="qr-label" style="color:${fgM}">Mehr<br>erfahren</div>
+        </div>` : ''}
       </div>`;
   }
 
@@ -298,6 +325,19 @@ function renderSlides() {
   state.slides.forEach((slide, i) =>
     main.appendChild(buildSlide(slide, i, i === state.currentSlide))
   );
+  // Generate QR codes after DOM is ready
+  requestAnimationFrame(() => {
+    state.slides.forEach((slide, i) => {
+      if (slide.url && document.getElementById(`qr-${i}`)) {
+        new QRCode(document.getElementById(`qr-${i}`), {
+          text: slide.url,
+          width: 70, height: 70,
+          colorDark: '#2e352a', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    });
+  });
 }
 
 function renderDots() {
