@@ -272,7 +272,7 @@ function buildSlide(slide, i, isActive) {
           </div>
         </div>
         <p class="event-desc" style="color:${fgM}">${slide.beschreibung}</p>
-        ${slide.url ? `
+        ${slide.permalink ? `
         <div class="qr-block">
           <div class="qr-box" id="qr-${i}"></div>
           <div class="qr-label" style="color:${fgM}">Mehr<br>erfahren</div>
@@ -328,9 +328,9 @@ function renderSlides() {
   // Generate QR codes after DOM is ready
   requestAnimationFrame(() => {
     state.slides.forEach((slide, i) => {
-      if (slide.url && document.getElementById(`qr-${i}`)) {
+      if (slide.permalink && document.getElementById(`qr-${i}`)) {
         new QRCode(document.getElementById(`qr-${i}`), {
-          text: slide.url,
+          text: slide.permalink,
           width: 70, height: 70,
           colorDark: '#2e352a', colorLight: '#ffffff',
           correctLevel: QRCode.CorrectLevel.M
