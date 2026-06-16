@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUB Infodisplay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #2e352a; }
+
+  @keyframes progress {
+    from { width: 0% }
+    to   { width: 100% }
+  }
+
+  #app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Hanken Grotesk', sans-serif;
+  }
+
+  /* ── HEADER ── */
+  #header {
+    flex: none;
+    height: 72px;
+    background: #f4f1e8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+    border-bottom: 1px solid rgba(46,53,42,0.12);
+  }
+  #logo { height: 32px; display: block; }
+  .clock-time {
+    font-weight: 900; font-size: 30px; letter-spacing: 0.03em;
+    color: #2e352a; line-height: 1; font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .clock-date {
+    font-weight: 600; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #727766; margin-top: 4px; text-align: right;
+  }
+
+  /* ── MAIN / SLIDER ── */
+  #main { flex: 1; position: relative; overflow: hidden; min-height: 0; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex;
+    flex-direction: column;   /* ← portrait: stack vertically */
+    transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
+                transform 0.75s cubic-bezier(0.4,0,0.2,1);
+  }
+  .slide.inactive { opacity: 0; transform: translateY(24px); pointer-events: none; }
+  .slide.active   { opacity: 1; transform: none; pointer-events: auto; }
+
+  /* text pane — always present, shrinks if photo is shown */
+  .slide-text {
+    flex: 1;
+    min-height: 0;
+    padding: 48px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* photo pane — fixed height at the bottom */
+  .slide-photo {
+    flex: none;
+    height: 38%;          /* ~38% of slide height for the image */
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  /* gradient fades the top of the photo into the slide bg */
+  .slide-photo-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── FOOTER ── */
+  #footer {
+    flex: none; height: 48px; background: #f4f1e8;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 36px; border-top: 1px solid rgba(46,53,42,0.10);
+  }
+  .footer-address { font-weight:600; font-size:10px; letter-spacing:0.10em; text-transform:uppercase; color:rgba(46,53,42,0.40); }
+  .footer-email   { font-weight:600; font-size:10px; letter-spacing:0.08em; color:rgba(46,53,42,0.40); }
+
+  /* ── DOTS ── */
+  .dots { display:flex; gap:5px; align-items:center; }
+  .dot {
+    all: unset; cursor: pointer; display: block;
+    height: 6px; border-radius: 4px; background: rgba(46,53,42,0.2);
+    transition: width 0.35s ease, background 0.35s ease; flex-shrink: 0;
+  }
+  .dot.active { background: #2e352a; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-track { position:absolute; bottom:0; left:0; right:0; height:3px; z-index:10; }
+  .progress-fill  { height:100%; animation:progress 10s linear forwards; opacity:0.6; }
+
+  /* ── ÜBER UNS SLIDE ── */
+  .ueber-label  { font-weight:700; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:18px; }
+  .ueber-title1 { font-weight:900; font-size:68px; line-height:0.88; letter-spacing:-0.03em; }
+  .ueber-title2 { font-family:'Caveat',cursive; font-weight:700; font-size:64px; line-height:0.92; margin-bottom:28px; }
+  .ueber-text   { margin:0; font-weight:500; font-size:17px; line-height:1.7; }
+
+  /* ── EVENT SLIDE ── */
+  .event-badge      { margin-bottom:16px; }
+  .event-badge span { font-weight:700; font-size:9px; letter-spacing:0.22em; text-transform:uppercase; padding:4px 10px; border-radius:4px; }
+  .event-title      { font-weight:900; line-height:0.9; letter-spacing:-0.03em; margin-bottom:22px; }
+  .event-divider    { height:1px; opacity:0.11; margin-bottom:22px; }
+  .event-meta       { display:flex; align-items:center; margin-bottom:20px; flex-wrap: wrap; gap: 0; }
+  .meta-block       { padding-right:28px; margin-bottom: 4px; }
+  .meta-sep         { width:1px; height:36px; opacity:0.13; margin-right:28px; flex-shrink:0; }
+  .meta-label       { font-weight:700; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:5px; }
+  .meta-value       { font-weight:800; font-size:17px; letter-spacing:-0.01em; }
+  .event-desc       { margin:0; font-weight:500; font-size:15px; line-height:1.65; }
+
+  /* ── LOADING / ERROR ── */
+  .loading      { height:100%; background:#2e352a; display:flex; align-items:center; justify-content:center; }
+  .loading-text { font-weight:900; font-size:24px; color:#f4f1e8; opacity:0.25; letter-spacing:0.06em; }
+  .error-text   { font-weight:700; font-size:16px; color:#f4f1e8; opacity:0.5; letter-spacing:0.04em; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="header">
+    <img id="logo" src="./logo.png" alt="HUB Studio" onerror="this.src='./logo.svg'">
+    <div>
+      <div class="clock-time" id="clock-time">00:00:00</div>
+      <div class="clock-date" id="clock-date"></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="loading"><div class="loading-text">Laden …</div></div>
+  </main>
+
+  <footer id="footer">
+    <div class="footer-address" id="footer-address">Wannsee HUB</div>
+    <div class="dots" id="dots"></div>
+    <div class="footer-email" id="footer-email"></div>
+  </footer>
+</div>
+
+<script>
+const CREAM   = '#f4f1e8';
+const DARK    = '#2e352a';
+const MUTED_D = 'rgba(244,241,232,0.44)';
+const MUTED_L = 'rgba(46,53,42,0.40)';
+const DAYS  = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+const MONTHS= ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const DAY_S = ['So.','Mo.','Di.','Mi.','Do.','Fr.','Sa.'];
+const MON_S = ['Jan.','Feb.','Mär.','Apr.','Mai','Jun.','Jul.','Aug.','Sep.','Okt.','Nov.','Dez.'];
+
+let state = { currentSlide: 0, slideVersion: 0, slides: [] };
+
+function fmtDate(str) {
+  const d = new Date(str + 'T00:00:00');
+  return `${DAY_S[d.getDay()]}  ${d.getDate()}. ${MON_S[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function titleSize(t) {
+  if (t.length <= 14) return 62;
+  if (t.length <= 22) return 52;
+  if (t.length <= 32) return 42;
+  return 34;
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock-time').textContent =
+    now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('clock-date').textContent =
+    `${DAYS[now.getDay()]}, ${now.getDate()}. ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+function buildSlide(slide, i, isActive) {
+  const isDark  = i % 2 === 0;
+  const bg      = isDark ? DARK  : CREAM;
+  const fg      = isDark ? CREAM : DARK;
+  const fgM     = isDark ? MUTED_D : MUTED_L;
+  const pbTrack = isDark ? 'rgba(244,241,232,0.10)' : 'rgba(46,53,42,0.09)';
+
+  const el = document.createElement('div');
+  el.className = 'slide ' + (isActive ? 'active' : 'inactive');
+  el.style.background = bg;
+
+  // ── Text pane ──────────────────────────────────────────────────────────────
+  const textPane = document.createElement('div');
+  textPane.className = 'slide-text';
+
+  if (slide.type === 'static') {
+    if (slide.id === 'ueber-uns') {
+      textPane.innerHTML = `
+        <div>
+          <div class="ueber-label" style="color:${fgM}">Über uns</div>
+          <div class="ueber-title1" style="color:${fg}">Wannsee</div>
+          <div class="ueber-title2" style="color:${fgM}">HUB Studio.</div>
+          <p class="ueber-text" style="color:${fgM}">${slide.text}</p>
+        </div>`;
+    } else {
+      textPane.innerHTML = `
+        <div>
+          <div class="ueber-label" style="color:${fgM}">${slide.label || ''}</div>
+          <div style="font-weight:900;font-size:56px;line-height:0.92;letter-spacing:-0.03em;color:${fg};margin-bottom:28px">${slide.titel}</div>
+          <p class="ueber-text" style="color:${fgM}">${slide.text}</p>
+        </div>`;
+    }
+  } else {
+    // Event slide
+    const ts = titleSize(slide.titel);
+    const badgeBg = isDark ? 'rgba(244,241,232,0.09)' : 'rgba(46,53,42,0.07)';
+    textPane.innerHTML = `
+      <div>
+        <div class="event-badge">
+          <span style="color:${fgM};background:${badgeBg}">${slide.kategorie}</span>
+        </div>
+        <div class="event-title" style="font-size:${ts}px;color:${fg}">${slide.titel}</div>
+        <div class="event-divider" style="background:${fg}"></div>
+        <div class="event-meta">
+          <div class="meta-block">
+            <div class="meta-label" style="color:${fgM}">Datum</div>
+            <div class="meta-value" style="color:${fg}">${fmtDate(slide.datum)}</div>
+          </div>
+          <div class="meta-sep" style="background:${fg}"></div>
+          <div class="meta-block">
+            <div class="meta-label" style="color:${fgM}">Uhrzeit</div>
+            <div class="meta-value" style="color:${fg}">${slide.uhrzeit} Uhr</div>
+          </div>
+          <div class="meta-sep" style="background:${fg}"></div>
+          <div class="meta-block" style="padding-right:0">
+            <div class="meta-label" style="color:${fgM}">Ort</div>
+            <div class="meta-value" style="color:${fg}">${slide.ort}</div>
+          </div>
+        </div>
+        <p class="event-desc" style="color:${fgM}">${slide.beschreibung}</p>
+      </div>`;
+  }
+
+  el.appendChild(textPane);
+
+  // ── Photo pane — below text, full width ────────────────────────────────────
+  if (slide.type === 'event' && slide.foto) {
+    const photoPane = document.createElement('div');
+    photoPane.className = 'slide-photo';
+
+    const img = document.createElement('img');
+    img.src = slide.foto;
+    img.alt = slide.titel;
+    img.onerror = () => { photoPane.remove(); };
+
+    // top-fade overlay: photo bleeds into the slide background color above it
+    const overlay = document.createElement('div');
+    overlay.className = 'slide-photo-overlay';
+    overlay.style.background =
+      `linear-gradient(to bottom, ${bg} 0%, transparent 30%)`;
+
+    photoPane.appendChild(img);
+    photoPane.appendChild(overlay);
+    el.appendChild(photoPane);
+  }
+
+  // ── Progress bar ───────────────────────────────────────────────────────────
+  if (isActive) {
+    const track = document.createElement('div');
+    track.className = 'progress-track';
+    track.style.background = pbTrack;
+    const fill = document.createElement('div');
+    fill.className = 'progress-fill';
+    fill.style.background = fg;
+    fill.dataset.version = state.slideVersion;
+    track.appendChild(fill);
+    el.appendChild(track);
+  }
+
+  return el;
+}
+
+function renderSlides() {
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  state.slides.forEach((slide, i) =>
+    main.appendChild(buildSlide(slide, i, i === state.currentSlide))
+  );
+}
+
+function renderDots() {
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = '';
+  if (state.slides.length <= 1) return;
+  state.slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === state.currentSlide ? ' active' : '');
+    btn.style.width = (i === state.currentSlide ? 20 : 6) + 'px';
+    btn.addEventListener('click', () => {
+      state.currentSlide = i;
+      state.slideVersion++;
+      renderSlides();
+      renderDots();
+    });
+    dotsEl.appendChild(btn);
+  });
+}
+
+function nextSlide() {
+  state.currentSlide = (state.currentSlide + 1) % Math.max(1, state.slides.length);
+  state.slideVersion++;
+  renderSlides();
+  renderDots();
+}
+
+Promise.all([
+  fetch('./slides.json').then(r => r.json()),
+  fetch('./events.json').then(r => r.json())
+])
+.then(([slidesData, eventsData]) => {
+  const org = eventsData.organisation;
+  document.getElementById('footer-address').textContent = `Wannsee HUB · ${org.adresse}`;
+  document.getElementById('footer-email').textContent   = org.email;
+
+  const staticSlides = (slidesData.slides || []).map(s => ({ ...s, type: 'static' }));
+  const eventSlides  = (eventsData.veranstaltungen || []).map(e => ({ ...e, type: 'event' }));
+  state.slides = [...staticSlides, ...eventSlides];
+
+  renderSlides();
+  renderDots();
+  setInterval(nextSlide, 10000);
+})
+.catch(() => {
+  document.getElementById('main').innerHTML =
+    '<div class="loading"><div class="error-text">Daten konnten nicht geladen werden.</div></div>';
+});
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
