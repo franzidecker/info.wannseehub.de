@@ -3,7 +3,7 @@
     "organisation": {
       "name": "HUB Studio",
       "subtitle": "Wannsee HUB",
-      "email": "info@wannseehub.de",
+      "email": "info@wannseekiez.de",
       "adresse": "Chausseestraße 44a, 14109 Berlin"
     },
     "veranstaltungen": [
@@ -13,10 +13,21 @@
         "datum": "2026-06-18",
         "uhrzeit": "19:00 – 21:30",
         "ort": "HUB Studio",
-        "beschreibung": "Wolle & Wein verbindet kreatives Handarbeiten mit entspanntem Weingenuss. In gemütlicher Atmosphäre wird gestrickt, gehäkelt und geplaudert – begleitet von einer ausgewählten Weinprobe von Vinho Ibérico. Ein Abend zum Abschalten, Austauschen und Kreativsein – für Anfänger:innen und Fortgeschrittene gleichermaßen. Packt euer Projekt ein und kommt vorbei. Den Anfänger:innen stehen wir mit Rat und Tat zur Seite. Für leckere alkoholfreie Alternativen wird gesorgt.",
+        "beschreibung": "Wolle & Wein verbindet kreatives Handarbeiten mit entspanntem Weingenuss. In gemütlicher Atmosphäre wird gestrickt, gehäkelt und geplaudert – begleitet von einer ausgewählten Weinprobe von Vinho Ibérico. Ein Abend zum Abschalten, Austauschen und Kreativsein – für Anfänger:innen und Fortgeschrittene gleichermaßen. Packt euer Projekt ein und kommt vorbei. Den Anfänger:innen stehen wir mit Rat und Tat zur Seite. Für leckere alkoholfreie Alternativen wird gesorgt. Anmeldung über: https://wannseekalender.de/event/wollewein/",
         "kategorie": "DIY",
         "foto": "https://wannseekalender.de/wp-content/uploads/2026/06/1780428532085.png",
-        "url": "https://wannseekalender.de/event/wolle-wein/"
+        "permalink": "https://wannseekalender.de/event/wollewein/"
+      },
+      {
+        "id": 9791,
+        "titel": "Pelzeter Porzellan Workshop",
+        "datum": "2026-09-10",
+        "uhrzeit": "19:00 – 21:00",
+        "ort": "HUB Studio",
+        "beschreibung": "Deine Tasse. Dein Motiv. Gestalte eine Porzellantasse mit der Engoben oder Siebdrucktechnik! In diesem Kurs bedruckst du eine von Carla Pelzeter handgedrehte Porzellantasse – mit Siebdruck-Motiven oder deinen eigenen Ideen im Engobe-Verfahren. Neben dem kreativen Prozess gibt es Einblicke ins Arbeiten mit Porzellan und gute Gesellschaft. Über Pelzeter Porzellan Jedes Stück ein Unikat. Von Carla Pelzeter in Wannsee von Hand an der Drehscheibe geformt – aus feinstem Porzellan, mit einer Formsprache, die Eleganz und Zeitgeist verbindet. Die Tassen und Schalen bringen Ästhetik in die Genussmomente des Alltags. Carla fertigt auf Bestellung und nach Maß. &nbsp; Anmeldung über: https://wannseekalender.de/event/pelzeter-porzellan-workshop/",
+        "kategorie": "DIY",
+        "foto": "https://wannseekalender.de/wp-content/uploads/2026/06/IMG-20260612-WA0014.jpg",
+        "permalink": "https://wannseekalender.de/event/pelzeter-porzellan-workshop/"
       }
     ]
   }
