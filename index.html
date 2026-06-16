@@ -38,22 +38,22 @@
   /* ── HEADER ── */
   #header {
     flex: none;
-    height: 72px;
+    height: 4.5vw;
     background: #f4f1e8;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 36px;
+    padding: 0 4vh;
     border-bottom: 1px solid rgba(46,53,42,0.12);
   }
-  #logo { height: 32px; display: block; }
+  #logo { height: 2vw; display: block; }
   .clock-time {
-    font-weight: 900; font-size: 30px; letter-spacing: 0.03em;
+    font-weight: 900; font-size: 3.3vh; letter-spacing: 0.03em;
     color: #2e352a; line-height: 1; font-variant-numeric: tabular-nums; text-align: right;
   }
   .clock-date {
-    font-weight: 600; font-size: 10px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: #727766; margin-top: 4px; text-align: right;
+    font-weight: 600; font-size: 1.1vh; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #727766; margin-top: 0.25vw; text-align: right;
   }
 
   /* ── MAIN / SLIDER ── */
@@ -62,18 +62,18 @@
   .slide {
     position: absolute; inset: 0;
     display: flex;
-    flex-direction: column;   /* ← portrait: stack vertically */
+    flex-direction: column;
     transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
                 transform 0.75s cubic-bezier(0.4,0,0.2,1);
   }
-  .slide.inactive { opacity: 0; transform: translateY(24px); pointer-events: none; }
+  .slide.inactive { opacity: 0; transform: translateY(1.5vw); pointer-events: none; }
   .slide.active   { opacity: 1; transform: none; pointer-events: auto; }
 
   /* text pane — always present, shrinks if photo is shown */
   .slide-text {
     flex: 1;
     min-height: 0;
-    padding: 48px 36px 32px;
+    padding: 3vw 4vh 2.5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -82,7 +82,7 @@
   /* photo pane — fixed height at the bottom */
   .slide-photo {
     flex: none;
-    height: 38%;          /* ~38% of slide height for the image */
+    height: 38%;
     position: relative;
     overflow: hidden;
   }
@@ -94,7 +94,6 @@
     object-fit: cover;
     object-position: center top;
   }
-  /* gradient fades the top of the photo into the slide bg */
   .slide-photo-overlay {
     position: absolute;
     inset: 0;
@@ -104,65 +103,65 @@
 
   /* ── FOOTER ── */
   #footer {
-    flex: none; height: 48px; background: #f4f1e8;
+    flex: none; height: 3vw; background: #f4f1e8;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 36px; border-top: 1px solid rgba(46,53,42,0.10);
+    padding: 0 4vh; border-top: 1px solid rgba(46,53,42,0.10);
   }
-  .footer-address { font-weight:600; font-size:10px; letter-spacing:0.10em; text-transform:uppercase; color:rgba(46,53,42,0.40); }
-  .footer-email   { font-weight:600; font-size:10px; letter-spacing:0.08em; color:rgba(46,53,42,0.40); }
+  .footer-address { font-weight:600; font-size:1.1vh; letter-spacing:0.10em; text-transform:uppercase; color:rgba(46,53,42,0.40); }
+  .footer-email   { font-weight:600; font-size:1.1vh; letter-spacing:0.08em; color:rgba(46,53,42,0.40); }
 
   /* ── DOTS ── */
-  .dots { display:flex; gap:5px; align-items:center; }
+  .dots { display:flex; gap:0.6vh; align-items:center; }
   .dot {
     all: unset; cursor: pointer; display: block;
-    height: 6px; border-radius: 4px; background: rgba(46,53,42,0.2);
+    height: 0.4vw; border-radius: 0.25vw; background: rgba(46,53,42,0.2);
     transition: width 0.35s ease, background 0.35s ease; flex-shrink: 0;
   }
   .dot.active { background: #2e352a; }
 
   /* ── PROGRESS BAR ── */
-  .progress-track { position:absolute; bottom:0; left:0; right:0; height:3px; z-index:10; }
+  .progress-track { position:absolute; bottom:0; left:0; right:0; height:0.2vw; z-index:10; }
   .progress-fill  { height:100%; animation:progress 10s linear forwards; opacity:0.6; }
 
   /* ── ÜBER UNS SLIDE ── */
-  .ueber-label  { font-weight:700; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:18px; }
-  .ueber-title1 { font-weight:900; font-size:68px; line-height:0.88; letter-spacing:-0.03em; }
-  .ueber-title2 { font-family:'Caveat',cursive; font-weight:700; font-size:64px; line-height:0.92; margin-bottom:28px; }
-  .ueber-text   { margin:0; font-weight:500; font-size:17px; line-height:1.7; }
+  .ueber-label  { font-weight:700; font-size:1.1vh; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:1.1vw; }
+  .ueber-title1 { font-weight:900; font-size:7.6vh; line-height:0.88; letter-spacing:-0.03em; }
+  .ueber-title2 { font-family:'Caveat',cursive; font-weight:700; font-size:7.1vh; line-height:0.92; margin-bottom:1.75vw; }
+  .ueber-text   { margin:0; font-weight:500; font-size:1.9vh; line-height:1.7; }
 
   /* ── EVENT SLIDE ── */
-  .event-badge      { margin-bottom:16px; }
-  .event-badge span { font-weight:700; font-size:9px; letter-spacing:0.22em; text-transform:uppercase; padding:4px 10px; border-radius:4px; }
-  .event-title      { font-weight:900; line-height:0.9; letter-spacing:-0.03em; margin-bottom:22px; }
-  .event-divider    { height:1px; opacity:0.11; margin-bottom:22px; }
-  .event-meta       { display:flex; align-items:center; margin-bottom:20px; flex-wrap: wrap; gap: 0; }
-  .meta-block       { padding-right:28px; margin-bottom: 4px; }
-  .meta-sep         { width:1px; height:36px; opacity:0.13; margin-right:28px; flex-shrink:0; }
-  .meta-label       { font-weight:700; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:5px; }
-  .meta-value       { font-weight:800; font-size:17px; letter-spacing:-0.01em; }
-  .event-desc       { margin:0; font-weight:500; font-size:15px; line-height:1.65; }
+  .event-badge      { margin-bottom:1vw; }
+  .event-badge span { font-weight:700; font-size:1vh; letter-spacing:0.22em; text-transform:uppercase; padding:0.3vw 1.1vh; border-radius:0.3vw; }
+  .event-title      { font-weight:900; line-height:0.9; letter-spacing:-0.03em; margin-bottom:1.4vw; }
+  .event-divider    { height:1px; opacity:0.11; margin-bottom:1.4vw; }
+  .event-meta       { display:flex; align-items:center; margin-bottom:1.25vw; flex-wrap: wrap; gap: 0; }
+  .meta-block       { padding-right:3.1vh; margin-bottom: 0.25vw; }
+  .meta-sep         { width:1px; height:2.25vw; opacity:0.13; margin-right:3.1vh; flex-shrink:0; }
+  .meta-label       { font-weight:700; font-size:1vh; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.3vw; }
+  .meta-value       { font-weight:800; font-size:1.9vh; letter-spacing:-0.01em; }
+  .event-desc       { margin:0; font-weight:500; font-size:1.7vh; line-height:1.65; }
 
   /* ── QR CODE ── */
   .qr-block {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-top: 24px;
+    gap: 1.6vh;
+    margin-top: 1.5vw;
   }
   .qr-box {
     flex: none;
-    width: 80px; height: 80px;
+    width: 9vh; height: 9vh;
   }
   .qr-box canvas, .qr-box img { width: 100% !important; height: 100% !important; }
   .qr-label {
-    font-weight: 700; font-size: 10px; letter-spacing: 0.18em;
+    font-weight: 700; font-size: 1.1vh; letter-spacing: 0.18em;
     text-transform: uppercase; line-height: 1.5;
   }
 
   /* ── LOADING / ERROR ── */
   .loading      { height:100%; background:#2e352a; display:flex; align-items:center; justify-content:center; }
-  .loading-text { font-weight:900; font-size:24px; color:#f4f1e8; opacity:0.25; letter-spacing:0.06em; }
-  .error-text   { font-weight:700; font-size:16px; color:#f4f1e8; opacity:0.5; letter-spacing:0.04em; }
+  .loading-text { font-weight:900; font-size:2.7vh; color:#f4f1e8; opacity:0.25; letter-spacing:0.06em; }
+  .error-text   { font-weight:700; font-size:1.8vh; color:#f4f1e8; opacity:0.5; letter-spacing:0.04em; }
 </style>
 </head>
 <body>
@@ -204,10 +203,10 @@ function fmtDate(str) {
 }
 
 function titleSize(t) {
-  if (t.length <= 14) return 62;
-  if (t.length <= 22) return 52;
-  if (t.length <= 32) return 42;
-  return 34;
+  if (t.length <= 14) return '6.9vh';
+  if (t.length <= 22) return '5.8vh';
+  if (t.length <= 32) return '4.7vh';
+  return '3.8vh';
 }
 
 function updateClock() {
@@ -246,7 +245,7 @@ function buildSlide(slide, i, isActive) {
       textPane.innerHTML = `
         <div>
           <div class="ueber-label" style="color:${fgM}">${slide.label || ''}</div>
-          <div style="font-weight:900;font-size:56px;line-height:0.92;letter-spacing:-0.03em;color:${fg};margin-bottom:28px">${slide.titel}</div>
+          <div style="font-weight:900;font-size:6.2vh;line-height:0.92;letter-spacing:-0.03em;color:${fg};margin-bottom:1.75vw">${slide.titel}</div>
           <p class="ueber-text" style="color:${fgM}">${slide.text}</p>
         </div>`;
     }
@@ -259,7 +258,7 @@ function buildSlide(slide, i, isActive) {
         <div class="event-badge">
           <span style="color:${fgM};background:${badgeBg}">${slide.kategorie}</span>
         </div>
-        <div class="event-title" style="font-size:${ts}px;color:${fg}">${slide.titel}</div>
+        <div class="event-title" style="font-size:${ts};color:${fg}">${slide.titel}</div>
         <div class="event-divider" style="background:${fg}"></div>
         <div class="event-meta">
           <div class="meta-block">
@@ -354,7 +353,7 @@ function renderDots() {
   state.slides.forEach((_, i) => {
     const btn = document.createElement('button');
     btn.className = 'dot' + (i === state.currentSlide ? ' active' : '');
-    btn.style.width = (i === state.currentSlide ? 20 : 6) + 'px';
+    btn.style.width = i === state.currentSlide ? '2.2vh' : '0.7vh';
     btn.addEventListener('click', () => {
       state.currentSlide = i;
       state.slideVersion++;
