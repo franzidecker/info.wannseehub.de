@@ -325,17 +325,21 @@ function nextSlide() {
   renderDots();
 }
 
+const fetchOptional = url =>
+  fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+
 Promise.all([
   fetch('./slides.json').then(r => r.json()),
-  fetch('./events.json').then(r => r.json())
+  fetchOptional('./events.json')
 ])
 .then(([slidesData, eventsData]) => {
-  const org = eventsData.organisation;
-  document.getElementById('footer-address').textContent = `Wannsee HUB · ${org.adresse}`;
-  document.getElementById('footer-email').textContent   = org.email;
+  const org = eventsData?.organisation;
+  document.getElementById('footer-address').textContent =
+    org?.adresse ? `Wannsee HUB · ${org.adresse}` : 'Wannsee HUB';
+  document.getElementById('footer-email').textContent = org?.email || '';
 
   const staticSlides = (slidesData.slides || []).map(s => ({ ...s, type: 'static' }));
-  const eventSlides  = (eventsData.veranstaltungen || []).map(e => ({ ...e, type: 'event' }));
+  const eventSlides  = (eventsData?.veranstaltungen || []).map(e => ({ ...e, type: 'event' }));
   state.slides = [...staticSlides, ...eventSlides];
 
   renderSlides();
