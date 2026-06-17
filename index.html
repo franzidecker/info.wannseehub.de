@@ -46,7 +46,7 @@
     padding: 0 6vh;
     border-bottom: 1px solid rgba(46,53,42,0.12);
   }
-  #logo { height: 3vw; display: block; }
+  #logo { height: 6vw; display: block; }
   .clock-time {
     font-weight: 900; font-size: 6.6vh; letter-spacing: 0.03em;
     color: #2e352a; line-height: 1; font-variant-numeric: tabular-nums; text-align: right;
@@ -107,8 +107,8 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 8vh; border-top: 1px solid rgba(46,53,42,0.10);
   }
-  .footer-address { font-weight:600; font-size:2.2vh; letter-spacing:0.10em; text-transform:uppercase; color:rgba(46,53,42,0.40); }
-  .footer-email   { font-weight:600; font-size:2.2vh; letter-spacing:0.08em; color:rgba(46,53,42,0.40); }
+  .footer-address { font-weight:600; font-size:1.76vh; letter-spacing:0.10em; text-transform:uppercase; color:rgba(46,53,42,0.40); }
+  .footer-email   { font-weight:600; font-size:1.76vh; letter-spacing:0.08em; color:rgba(46,53,42,0.40); }
 
   /* ── DOTS ── */
   .dots { display:flex; gap:1.2vh; align-items:center; }
@@ -124,22 +124,22 @@
   .progress-fill  { height:100%; animation:progress 10s linear forwards; opacity:0.6; }
 
   /* ── ÜBER UNS SLIDE ── */
-  .ueber-label  { font-weight:700; font-size:2.2vh; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:2.2vw; }
-  .ueber-title1 { font-weight:900; font-size:15.2vh; line-height:0.88; letter-spacing:-0.03em; }
-  .ueber-title2 { font-family:'Caveat',cursive; font-weight:700; font-size:14.2vh; line-height:0.92; margin-bottom:3.5vw; }
-  .ueber-text   { margin:0; font-weight:500; font-size:3.8vh; line-height:1.7; }
+  .ueber-label  { font-weight:700; font-size:1.76vh; letter-spacing:0.22em; text-transform:uppercase; margin-bottom:2.2vw; }
+  .ueber-title1 { font-weight:900; font-size:12.2vh; line-height:0.88; letter-spacing:-0.03em; }
+  .ueber-title2 { font-family:'Caveat',cursive; font-weight:700; font-size:11.4vh; line-height:0.92; margin-bottom:3.5vw; }
+  .ueber-text   { margin:0; font-weight:500; font-size:3.04vh; line-height:1.7; }
 
   /* ── EVENT SLIDE ── */
   .event-badge      { margin-bottom:2vw; }
-  .event-badge span { font-weight:700; font-size:2vh; letter-spacing:0.22em; text-transform:uppercase; padding:0.6vw 2.2vh; border-radius:0.6vw; }
+  .event-badge span { font-weight:700; font-size:1.6vh; letter-spacing:0.22em; text-transform:uppercase; padding:0.6vw 2.2vh; border-radius:0.6vw; }
   .event-title      { font-weight:900; line-height:0.9; letter-spacing:-0.03em; margin-bottom:2.8vw; }
   .event-divider    { height:1px; opacity:0.11; margin-bottom:2.8vw; }
   .event-meta       { display:flex; align-items:center; margin-bottom:2.5vw; flex-wrap: wrap; gap: 0; }
   .meta-block       { padding-right:6.2vh; margin-bottom: 0.5vw; }
   .meta-sep         { width:1px; height:4.5vw; opacity:0.13; margin-right:6.2vh; flex-shrink:0; }
-  .meta-label       { font-weight:700; font-size:2vh; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.6vw; }
-  .meta-value       { font-weight:800; font-size:3.8vh; letter-spacing:-0.01em; }
-  .event-desc       { margin:0; font-weight:500; font-size:3.4vh; line-height:1.65; }
+  .meta-label       { font-weight:700; font-size:1.6vh; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.6vw; }
+  .meta-value       { font-weight:800; font-size:3.04vh; letter-spacing:-0.01em; }
+  .event-desc       { margin:0; font-weight:500; font-size:2.72vh; line-height:1.65; }
 
   /* ── QR CODE ── */
   .qr-block {
@@ -154,7 +154,7 @@
   }
   .qr-box canvas, .qr-box img { width: 100% !important; height: 100% !important; }
   .qr-label {
-    font-weight: 700; font-size: 2.2vh; letter-spacing: 0.18em;
+    font-weight: 700; font-size: 1.76vh; letter-spacing: 0.18em;
     text-transform: uppercase; line-height: 1.5;
   }
 
@@ -203,10 +203,10 @@ function fmtDate(str) {
 }
 
 function titleSize(t) {
-  if (t.length <= 14) return '13.8vh';
-  if (t.length <= 22) return '11.6vh';
-  if (t.length <= 32) return '9.4vh';
-  return '7.6vh';
+  if (t.length <= 14) return '11.04vh';
+  if (t.length <= 22) return '9.28vh';
+  if (t.length <= 32) return '7.52vh';
+  return '6.08vh';
 }
 
 function updateClock() {
@@ -245,7 +245,7 @@ function buildSlide(slide, i, isActive) {
       textPane.innerHTML = `
         <div>
           <div class="ueber-label" style="color:${fgM}">${slide.label || ''}</div>
-          <div style="font-weight:900;font-size:12.4vh;line-height:0.92;letter-spacing:-0.03em;color:${fg};margin-bottom:3.5vw">${slide.titel}</div>
+          <div style="font-weight:900;font-size:9.92vh;line-height:0.92;letter-spacing:-0.03em;color:${fg};margin-bottom:3.5vw">${slide.titel}</div>
           <p class="ueber-text" style="color:${fgM}">${slide.text}</p>
         </div>`;
     }
