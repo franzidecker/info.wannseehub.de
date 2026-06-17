@@ -69,20 +69,19 @@
   .slide.inactive { opacity: 0; transform: translateY(1.5vw); pointer-events: none; }
   .slide.active   { opacity: 1; transform: none; pointer-events: auto; }
 
-  /* text pane — always present, shrinks if photo is shown */
+  /* text pane — natural height, no growing */
   .slide-text {
-    flex: 1;
-    min-height: 0;
+    flex: none;
     padding: 3vw 4vh 2.5vw;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
-  /* photo pane — fixed height at the bottom */
+  /* photo pane — fills remaining space below text/QR */
   .slide-photo {
-    flex: none;
-    height: 38%;
+    flex: 1;
+    min-height: 0;
     position: relative;
     overflow: hidden;
   }
